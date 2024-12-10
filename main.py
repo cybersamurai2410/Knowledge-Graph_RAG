@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 import os
 import textwrap
 
@@ -10,16 +9,18 @@ from langchain.prompts.prompt import PromptTemplate
 from langchain.chains import GraphCypherQAChain
 from langchain_openai import ChatOpenAI
 
+from env_variables import load_env
+
 import warnings
 warnings.filterwarnings("ignore")
 
-load_dotenv('.env', override=True)
-NEO4J_URI = os.getenv('NEO4J_URI')
-NEO4J_USERNAME = os.getenv('NEO4J_USERNAME')
-NEO4J_PASSWORD = os.getenv('NEO4J_PASSWORD')
-NEO4J_DATABASE = os.getenv('NEO4J_DATABASE') or 'neo4j'
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-OPENAI_ENDPOINT = os.getenv('OPENAI_BASE_URL') + '/embeddings'
+env_vars = load_env()
+NEO4J_URI = env_vars['NEO4J_URI']
+NEO4J_USERNAME = env_vars['NEO4J_USERNAME']
+NEO4J_PASSWORD = env_vars['NEO4J_PASSWORD']
+NEO4J_DATABASE = env_vars.get('NEO4J_DATABASE', 'neo4j')  
+OPENAI_API_KEY = env_vars['OPENAI_API_KEY']
+OPENAI_ENDPOINT = env_vars['OPENAI_ENDPOINT']
 
 VECTOR_INDEX_NAME = 'form_10k_chunks'
 VECTOR_NODE_LABEL = 'Chunk'
